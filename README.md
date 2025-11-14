@@ -43,3 +43,19 @@ Feature tests cover the landing page redirects and authentication workflow.
 ## Tweet Intent Handle
 
 Set `X_HANDLE` in your environment file if you want to change the attribution added to the “Tweet it” button URLs.
+
+## Stripe Membership & Billing
+
+Remixer now requires a $10/month Stripe subscription with a 7-day free trial. To finish configuring billing:
+
+1. Create a recurring $10 price in Stripe (or reuse an existing one) and enable a 7-day trial on that price, or rely on the in-app `STRIPE_TRIAL_DAYS` override.
+2. Update these environment variables locally and on Laravel Cloud:
+   - `STRIPE_KEY` / `STRIPE_SECRET`
+   - `STRIPE_PRICE_ID` (the price identifier that represents the $10 plan)
+   - `STRIPE_WEBHOOK_SECRET` (optional but recommended for webhook verification)
+   - `STRIPE_TRIAL_DAYS` (defaults to 7 if omitted)
+3. Run the new Cashier migrations: `php artisan migrate` (include `--force` during deploys).
+4. Configure a Stripe webhook endpoint that points to `/stripe/webhook` and subscribes to `customer.subscription.*` along with `invoice.payment_*` events so Cashier keeps local records in sync.
+
+Existing users are redirected to `/billing` until they start a subscription or continue within their trial/grace period. The Billing page also links to the hosted Stripe customer portal for self-service management.
+When a member clicks “Continue on Stripe” we generate a Checkout Session and send them to Stripe’s hosted subscription flow; on success, Stripe redirects back to `/billing/success`.

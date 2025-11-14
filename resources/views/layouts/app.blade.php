@@ -38,6 +38,10 @@
                             New
                         </a>
 
+                        <a href="{{ route('billing.show') }}" class="pill-button--ghost">
+                            Billing
+                        </a>
+
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="pill-button--outline">
@@ -77,6 +81,8 @@
                 @yield('content')
             </main>
         </div>
+
+        @stack('scripts')
     </body>
 </html>
 

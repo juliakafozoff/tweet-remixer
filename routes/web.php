@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Cashier\Http\Controllers\WebhookController;
 
 Route::get('/', function () {
-    return auth()->check()
-        ? redirect()->route('dashboard')
-        : view('welcome');
+    return view('welcome');
 })->name('welcome');
 
 Route::middleware('guest')->group(function () {

@@ -23,7 +23,7 @@ class BillingController extends Controller
         ]);
     }
 
-    public function subscribe(Request $request): RedirectResponse
+    public function subscribe(Request $request)
     {
         $user = $request->user();
         $priceId = config('services.stripe.price_id');

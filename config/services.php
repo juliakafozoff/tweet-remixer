@@ -40,4 +40,8 @@ return [
         'model' => env('GEMINI_MODEL', 'gemini-1.5-flash-001'),
     ],
 
+    'x' => [
+        'handle' => env('X_HANDLE', 'platulia'),
+    ],
+
 ];

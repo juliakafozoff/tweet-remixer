@@ -140,7 +140,10 @@
                                 <button type="button" class="tweet-copy pill-button--ghost" data-content="{{ base64_encode($tweet->content) }}" data-content-encoding="base64">
                                     Copy
                                 </button>
-                                <a href="https://x.com/intent/tweet?text={{ urlencode($tweet->content) }}" target="_blank" rel="noopener"
+                                @php
+                                    $xHandle = ltrim(config('services.x.handle', 'platulia'), '@');
+                                @endphp
+                                <a href="https://x.com/intent/tweet?text={{ urlencode($tweet->content) }}&via={{ urlencode($xHandle) }}&related={{ urlencode($xHandle) }}" target="_blank" rel="noopener"
                                    class="pill-button--outline border-white/40 hover:bg-white/70 hover:text-ink">
                                     Tweet it
                                 </a>

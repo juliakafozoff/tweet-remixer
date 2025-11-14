@@ -5,6 +5,12 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\TweetController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', function () {
+    return auth()->check()
+        ? redirect()->route('dashboard')
+        : view('welcome');
+})->name('welcome');
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
@@ -16,7 +22,7 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', [PostController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [PostController::class, 'index'])->name('dashboard');
     Route::resource('posts', PostController::class)->except(['index']);
 
     Route::post('posts/{post}/archive', [PostController::class, 'archive'])->name('posts.archive');
